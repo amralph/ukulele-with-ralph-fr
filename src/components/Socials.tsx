@@ -1,8 +1,14 @@
-export default function Socials() {
+export default function Socials({
+  youtubeUrl,
+  tiktokUrl,
+}: {
+  youtubeUrl?: string;
+  tiktokUrl?: string;
+}) {
   return (
     <section className='mt-12 flex justify-center space-x-10'>
       <a
-        href={process.env.NEXT_PUBLIC_YOUTUBE}
+        href={youtubeUrl}
         target='_blank'
         rel='noopener noreferrer'
         aria-label='YouTube'
@@ -22,7 +28,7 @@ export default function Socials() {
       </a>
 
       <a
-        href={process.env.NEXT_PUBLIC_TIKTOK}
+        href={tiktokUrl}
         target='_blank'
         rel='noopener noreferrer'
         aria-label='TikTok'

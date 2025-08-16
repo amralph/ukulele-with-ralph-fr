@@ -5,8 +5,10 @@ import AllTabs from '@/components/AllTabs';
 
 export default async function Home() {
   const FRONT_PAGE_QUERY = `{
-  "featuredTabs": *[_type == "frontPage"] | order(publishedAt desc)[0...12] {
-    featuredTabs[]->{
+  "frontPage": *[_type == "frontPage"] | order(publishedAt desc)[0]{
+    youtubeUrl,
+    tiktokUrl,
+    "featuredTabs": featuredTabs[]->{
       _id,
       title,
       slug,
@@ -14,9 +16,9 @@ export default async function Home() {
       videoUrl,
       shopUrl
     }
-  }[0].featuredTabs,
+  },
 
-  "allTabs": *[_type == "tab"] | order(title asc) {
+  "allTabs": *[_type == "tab"] | order(title asc){
     _id,
     title,
     slug,
@@ -30,7 +32,9 @@ export default async function Home() {
 
   const data = await client.fetch(FRONT_PAGE_QUERY, {}, options);
 
-  const { featuredTabs, allTabs } = data;
+  const { featuredTabs, youtubeUrl, tiktokUrl } = data.frontPage;
+  const { allTabs } = data;
+
   return (
     <div className='container mx-auto py-6 px-12 space-y-4'>
       <header className='mb-8 text-center'>
@@ -42,9 +46,8 @@ export default async function Home() {
 
       <AllTabs tabs={allTabs} />
 
-      {/* Example YouTube link (just for demo) */}
       <footer className='mt-12 text-center text-gray-500 text-sm'>
-        <Socials></Socials>
+        <Socials youtubeUrl={youtubeUrl} tiktokUrl={tiktokUrl}></Socials>
       </footer>
     </div>
   );
