@@ -13,7 +13,7 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
       {featuredTabs.length === 0 ? (
         <p className='text-center text-gray-500'>No tabs found.</p>
       ) : (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
           {featuredTabs.map((tab) => (
             <article
               key={tab._id}
