@@ -68,7 +68,7 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                   </p>
                 )}
 
-                <div className='mt-auto flex gap-3'>
+                <div className='mt-auto flex flex-wrap gap-2'>
                   {tab.shopUrl && (
                     <a
                       href={tab.shopUrl}
