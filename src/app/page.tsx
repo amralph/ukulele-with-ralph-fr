@@ -24,7 +24,8 @@ export default async function Home() {
     slug,
     composer,
     videoUrl,
-    shopUrl
+    shopUrl,
+    "previewTabFileUrl": previewTabFile.asset->url
   }
 }`;
 

@@ -4,4 +4,5 @@ export interface Tab {
   composer?: string;
   videoUrl?: string;
   shopUrl?: string;
+  previewTabFileUrl?: string;
 }

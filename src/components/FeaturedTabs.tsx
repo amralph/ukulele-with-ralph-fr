@@ -25,7 +25,7 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
               )}
 
               {tab.videoUrl && (
-                <div className='mb-5 rounded overflow-hidden aspect-w-16 aspect-h-9'>
+                <div className='mb-5 rounded overflow-hidden aspect-video'>
                   {tab.videoUrl.includes('youtube') ||
                   tab.videoUrl.includes('youtu.be') ? (
                     <iframe
@@ -64,16 +64,18 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
                   )}
 
                 {/* Shop URL */}
-                {tab.shopUrl && (
-                  <a
-                    href={tab.shopUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='text-blue-600 hover:underline'
-                  >
-                    Tab
-                  </a>
-                )}
+                <div className='mt-auto flex gap-3'>
+                  {tab.shopUrl && (
+                    <a
+                      href={tab.shopUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
+                    >
+                      Tab
+                    </a>
+                  )}
+                </div>
               </div>
             </article>
           ))}

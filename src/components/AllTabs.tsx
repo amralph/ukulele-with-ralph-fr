@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Tab } from '@/types/tab';
+import Image from 'next/image';
 
 interface AllTabsProps {
   tabs: Tab[];
@@ -39,42 +40,54 @@ export default function AllTabs({ tabs }: AllTabsProps) {
       {filteredTabs.length === 0 ? (
         <p className='text-center text-gray-500'>No tabs found.</p>
       ) : (
-        <ul className='space-y-2'>
+        <ul className='grid grid-cols-1 md:grid-cols-2 gap-2'>
           {filteredTabs.map((tab) => (
             <li
               key={tab._id}
-              className='bg-blue-300 border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex items-center gap-4'
+              className='bg-blue-300 border rounded-lg p-5 shadow-sm flex gap-5'
             >
-              <div className='flex-1'>
-                <h3 className='text-lg font-semibold'>{tab.title}</h3>
+              {/* Optional preview image (if you have one) */}
+              {tab.previewTabFileUrl && (
+                <Image
+                  src={tab.previewTabFileUrl}
+                  alt={`${tab.title} preview`}
+                  className='w-32 h-44 object-contain rounded-md border bg-white'
+                  width={128}
+                  height={176}
+                  unoptimized
+                />
+              )}
+
+              <div className='flex-1 flex flex-col'>
+                <h3 className='text-xl font-semibold text-gray-900'>
+                  {tab.title}
+                </h3>
                 {tab.composer && (
-                  <p className='italic text-gray-600 mb-2'>By {tab.composer}</p>
+                  <p className='text-sm text-gray-600 mb-3'>
+                    By {tab.composer}
+                  </p>
                 )}
 
-                <div className=''>
+                <div className='mt-auto flex gap-3'>
                   {tab.shopUrl && (
-                    <div>
-                      <a
-                        href={tab.shopUrl}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='text-blue-600 hover:underline'
-                      >
-                        Tab
-                      </a>
-                    </div>
+                    <a
+                      href={tab.shopUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
+                    >
+                      Tab
+                    </a>
                   )}
                   {tab.videoUrl && (
-                    <div>
-                      <a
-                        href={tab.videoUrl}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='text-blue-600 hover:underline'
-                      >
-                        Video
-                      </a>
-                    </div>
+                    <a
+                      href={tab.videoUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='px-4 py-2 bg-gray-200 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors'
+                    >
+                      Video
+                    </a>
                   )}
                 </div>
               </div>
