@@ -19,8 +19,9 @@ export default function AllTabs({ tabs }: AllTabsProps) {
 
     return tabs.filter((tab) => {
       return (
-        tab.title.toLowerCase().startsWith(lowerSearch) ||
-        (tab.composer?.toLowerCase().startsWith(lowerSearch) ?? false)
+        tab.title.toLowerCase().includes(lowerSearch) ||
+        (tab.composer?.toLowerCase().includes(lowerSearch) ?? false) ||
+        (tab.origin?.toLowerCase().includes(lowerSearch) ?? false)
       );
     });
   }, [searchTerm, tabs]);
@@ -44,7 +45,7 @@ export default function AllTabs({ tabs }: AllTabsProps) {
           {filteredTabs.map((tab) => (
             <li
               key={tab._id}
-              className='bg-blue-300 border rounded-lg p-5 shadow-sm flex gap-5'
+              className='bg-blue-300 rounded-lg p-5 shadow-sm flex gap-5'
             >
               {/* Optional preview image (if you have one) */}
               {tab.previewTabFileUrl && (
@@ -58,14 +59,16 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                 />
               )}
 
-              <div className='flex-1 flex flex-col'>
+              <div className='flex-1 flex flex-col space-y-2'>
                 <h3 className='text-xl font-semibold text-gray-900'>
                   {tab.title}
                 </h3>
-                {tab.composer && (
-                  <p className='text-sm text-gray-600 mb-3'>
-                    By {tab.composer}
-                  </p>
+
+                {(tab.composer || tab.origin) && (
+                  <div className='text-sm text-gray-800'>
+                    {tab.composer && <p>By {tab.composer}</p>}
+                    {tab.origin && <p>From {tab.origin}</p>}
+                  </div>
                 )}
 
                 <div className='mt-auto flex flex-wrap gap-2'>

@@ -17,11 +17,13 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
           {featuredTabs.map((tab) => (
             <article
               key={tab._id}
-              className='bg-blue-300 border rounded-lg p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col'
+              className='bg-blue-300 rounded-lg p-5 shadow-md flex flex-col'
             >
               <h3 className='text-xl font-semibold mb-1'>{tab.title}</h3>
-              {tab.composer && (
-                <p className='italic text-gray-600 mb-3'>By {tab.composer}</p>
+              {tab.origin && (
+                <div className='text-sm text-gray-800 mb-3 space-y-1'>
+                  {tab.origin && <p>From {tab.origin}</p>}
+                </div>
               )}
 
               {tab.videoUrl && (

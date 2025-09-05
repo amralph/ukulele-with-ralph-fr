@@ -5,4 +5,5 @@ export interface Tab {
   videoUrl?: string;
   shopUrl?: string;
   previewTabFileUrl?: string;
+  origin?: string;
 }
