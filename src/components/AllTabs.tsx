@@ -47,7 +47,6 @@ export default function AllTabs({ tabs }: AllTabsProps) {
               key={tab._id}
               className='bg-blue-300 rounded-lg p-5 shadow-sm flex gap-5'
             >
-              {/* Optional preview image (if you have one) */}
               {tab.previewTabFileUrl && (
                 <Image
                   src={tab.previewTabFileUrl}
@@ -72,6 +71,16 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                 )}
 
                 <div className='mt-auto flex flex-wrap gap-2'>
+                  {tab.tabFileUrl && (
+                    <a
+                      href={tab.tabFileUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
+                    >
+                      Tab
+                    </a>
+                  )}
                   {tab.shopUrl && (
                     <a
                       href={tab.shopUrl}
@@ -91,6 +100,17 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                     >
                       Video
                     </a>
+                  )}
+
+                  {tab.audioFileUrl && (
+                    <audio
+                      controls
+                      controlsList='nodownload'
+                      className='h-9 w-full rounded-lg shadow max-w-full'
+                    >
+                      <source src={tab.audioFileUrl} type='audio/mpeg' />
+                      Your browser does not support the audio element.
+                    </audio>
                   )}
                 </div>
               </div>

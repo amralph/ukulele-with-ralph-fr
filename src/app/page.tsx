@@ -27,7 +27,9 @@ export default async function Home() {
     videoUrl,
     shopUrl,
     origin,
-    "previewTabFileUrl": previewTabFile.asset->url
+    "previewTabFileUrl": previewTabFile.asset->url,
+    "audioFileUrl": audioFile.asset->url,
+    "tabFileUrl": tabFile.asset->url
   }
 }`;
 
