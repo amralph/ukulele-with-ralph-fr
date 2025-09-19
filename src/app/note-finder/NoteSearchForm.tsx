@@ -15,7 +15,7 @@ export const NoteSearchForm = ({
       <h2 className='font-bold text-2xl'>Search</h2>
       <div className='items-center space-y-2 gap-2'>
         <div className='flex space-x-2'>
-          <label>Search Note</label>
+          <label>Note</label>
           <select
             onChange={(e) => setSearchNote(parseInt(e.target.value))}
             className='border px-2 py-1'
@@ -28,7 +28,7 @@ export const NoteSearchForm = ({
           </select>
         </div>
         <div className='flex space-x-2'>
-          <label>Search Chord</label>
+          <label>Chord</label>
           <select
             onChange={(e) => setSearchChord(e.target.value as Chord)}
             className='border px-2 py-1'
@@ -42,7 +42,7 @@ export const NoteSearchForm = ({
           </select>
         </div>
         <div className='flex space-x-2'>
-          <label>Search Scale</label>
+          <label>Scale</label>
           <select
             onChange={(e) => setSearchScale(e.target.value as Scale)}
             className='border px-2 py-1'

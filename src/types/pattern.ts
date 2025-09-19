@@ -4,17 +4,21 @@ export type IntervalSet = {
 };
 
 export type Chord =
+  // 3-note chords (triads)
   | 'Major'
   | 'Minor'
-  | 'Dominant 7th'
-  | 'Minor 7th'
   | 'Diminished'
-  | 'Diminished 7th'
   | 'Augmented'
   | 'Suspended 2'
   | 'Suspended 4'
+  // 4-note chords (sevenths)
+  | 'Dominant 7th'
+  | 'Major 7th'
   | 'Add 9'
-  | 'Power';
+  | 'Minor Add 9'
+  | 'Minor 7th'
+  | 'Minor Major 7th'
+  | 'Diminished 7th';
 
 export type Scale =
   | 'Ionian'
