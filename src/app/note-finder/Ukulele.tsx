@@ -106,7 +106,7 @@ export const Ukulele = ({
                   );
                 }}
                 key={fretIndex}
-                className={`relative flex items-center justify-center text-sm border-x py-2 hover:bg-amber-300 hover:cursor-pointer
+                className={`relative flex items-center justify-center text-sm border-x py-2 hover:bg-amber-300 active:bg-amber-400 hover:cursor-pointer
                   ${fretIndex === 0 ? 'bg-white' : 'bg-amber-200'}
                 `}
               >

@@ -37,11 +37,11 @@ export default function NoteFinder() {
 
   return (
     <div className='space-y-4'>
-      <header className='mb-8 text-center'>
+      <header className='text-center'>
         <h1 className='text-4xl font-extrabold mb-2'>Note finder</h1>
         <p>
           Use this tool to find any note, chord, or scale on the ukulele
-          fretboard, with any tuning.
+          fretboard with any tuning.
         </p>
       </header>
 
