@@ -1,24 +1,41 @@
 'use client';
 
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext;
+  }
+}
+
 import { OctaveOffset, StringTuning } from '@/types/stringTuning';
-import { FRETS, STRINGS, NOTES_ARRAY } from './constants';
-import { calculateNoteName, calculateNoteNumber } from './helpers';
+import { FRETS, STRINGS, NOTES } from './constants';
+import {
+  calculateNoteName,
+  calculateNoteNumber,
+  noteInIntervals,
+} from './helpers';
+import { Chord, Scale } from '@/types/pattern';
+
+let audioContext: AudioContext | null = null;
 
 export const Ukulele = ({
   tuning,
   searchNote,
+  searchChord,
+  searchScale,
+  setDisplayedNote,
 }: {
   tuning: StringTuning[];
   searchNote: number;
+  searchChord: Chord | '';
+  searchScale: Scale | '';
+  setDisplayedNote: (note: string) => void;
 }) => {
-  const FRET_WIDTHS_CLASS = `0.3fr repeat(${FRETS - 1}, 1fr)`;
-
-  let audioContext: AudioContext | null = null;
+  const FRET_WIDTHS_CLASS = `0.5fr repeat(${FRETS - 1}, 1fr)`;
 
   function getAudioContext() {
     if (!audioContext) {
-      audioContext = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext!;
+      audioContext = new AudioCtx();
     }
     return audioContext;
   }
@@ -48,7 +65,7 @@ export const Ukulele = ({
 
   return (
     <div
-      className='grid'
+      className='grid w-[1000px] lg:w-full'
       style={{
         gridTemplateColumns: '1fr 30fr',
         gridTemplateRows: `4fr 1fr`,
@@ -84,6 +101,9 @@ export const Ukulele = ({
                     fretIndex,
                     tuning[stringIndex].octave
                   );
+                  setDisplayedNote(
+                    calculateNoteName(stringIndex, fretIndex, tuning, NOTES)
+                  );
                 }}
                 key={fretIndex}
                 className={`relative flex items-center justify-center text-sm border-x py-2 hover:bg-amber-300 hover:cursor-pointer
@@ -91,21 +111,51 @@ export const Ukulele = ({
                 `}
               >
                 {/* Horizontal line behind text */}
-                <div className='absolute w-[105%] h-[1px] bg-gray-400 z-1' />
+                <div className='absolute w-[100%] h-[1px] bg-gray-400 z-1' />
 
                 {/* Text */}
                 <span className='relative z-10'>
-                  {calculateNoteNumber(stringIndex, fretIndex, tuning) ===
-                    searchNote && (
-                    <div className={`bg-orange-400 px-2 rounded-2xl`}>
-                      {calculateNoteName(
-                        stringIndex,
-                        fretIndex,
-                        tuning,
-                        NOTES_ARRAY
-                      )}
-                    </div>
-                  )}
+                  {(() => {
+                    const noteNumber = calculateNoteNumber(
+                      stringIndex,
+                      fretIndex,
+                      tuning
+                    );
+
+                    // Determine if this note should be highlighted
+                    const highlight =
+                      noteNumber === searchNote || // root note
+                      noteInIntervals(noteNumber, searchChord, searchNote) ||
+                      noteInIntervals(noteNumber, searchScale, searchNote);
+
+                    if (!highlight) return null;
+
+                    const root = searchNote;
+
+                    const intervalFromRoot = (noteNumber - root + 12) % 12;
+
+                    const isRoot = intervalFromRoot === 0;
+                    const isThird =
+                      intervalFromRoot === 3 || intervalFromRoot === 4; // minor or major third
+                    const isFifth = intervalFromRoot === 7;
+
+                    // Determine color
+                    let bgColor = 'bg-orange-400'; // default chord tone
+                    if (isRoot) bgColor = 'bg-red-400';
+                    else if (isThird) bgColor = 'bg-blue-400';
+                    else if (isFifth) bgColor = 'bg-green-400';
+
+                    return (
+                      <div className={`${bgColor} px-2 rounded-2xl`}>
+                        {calculateNoteName(
+                          stringIndex,
+                          fretIndex,
+                          tuning,
+                          NOTES
+                        )}
+                      </div>
+                    );
+                  })()}
                 </span>
               </button>
             ))}
