@@ -1,17 +1,33 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Script from 'next/script';
+import Socials from '@/components/Socials';
+import Navbar from '@/components/Navbar';
+import { client } from '@/sanity/client';
 
 export const metadata: Metadata = {
   title: 'Ukulele with Ralph',
   description: 'Ukulele with Ralph',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const LAYOUT_QUERY = `{
+  "frontPage": *[_type == "frontPage"] | order(publishedAt desc)[0]{
+    youtubeUrl,
+    tiktokUrl,
+    title
+  },
+}`;
+
+  const options = { next: { revalidate: 30 } };
+
+  const data = await client.fetch(LAYOUT_QUERY, {}, options);
+  const { youtubeUrl, tiktokUrl, title } = data.frontPage;
+
   return (
     <html lang='en'>
       <head>
@@ -30,7 +46,13 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className='bg-blue-200'>{children}</body>
+      <body className='bg-blue-200 flex flex-col min-h-screen'>
+        <Navbar title={title} youtubeUrl={youtubeUrl} tiktokUrl={tiktokUrl} />
+        <div className='px-4 md:px-12 py-10 flex-grow'>{children}</div>
+        <footer className='text-center text-gray-500 text-sm mt-10'>
+          <Socials youtubeUrl={youtubeUrl} tiktokUrl={tiktokUrl}></Socials>
+        </footer>
+      </body>
     </html>
   );
 }

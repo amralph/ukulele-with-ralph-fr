@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tab } from '@/types/tab';
+import Link from 'next/link';
 
 interface FeaturedTabsProps {
   featuredTabs: Tab[];
@@ -8,7 +9,7 @@ interface FeaturedTabsProps {
 export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
   return (
     <section>
-      <h2 className='text-3xl font-semibold mb-6'>Featured tabs</h2>
+      <h2 className='text-3xl font-semibold mb-6'>Featured ukulele tabs</h2>
 
       {featuredTabs.length === 0 ? (
         <p className='text-center text-gray-500'>No tabs found.</p>
@@ -55,27 +56,27 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
                     tab.videoUrl.includes('youtube') ||
                     tab.videoUrl.includes('youtu.be')
                   ) && (
-                    <a
+                    <Link
                       href={tab.videoUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='text-blue-600 hover:underline'
                     >
                       Watch Video
-                    </a>
+                    </Link>
                   )}
 
                 {/* Shop URL */}
                 <div className='mt-auto flex gap-3'>
                   {tab.shopUrl && (
-                    <a
+                    <Link
                       href={tab.shopUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
                     >
                       Tab
-                    </a>
+                    </Link>
                   )}
                 </div>
               </div>

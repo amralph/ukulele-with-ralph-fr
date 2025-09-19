@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Tab } from '@/types/tab';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface AllTabsProps {
   tabs: Tab[];
@@ -28,7 +29,7 @@ export default function AllTabs({ tabs }: AllTabsProps) {
 
   return (
     <section>
-      <h2 className='text-3xl font-semibold mb-2'>All Tabs</h2>
+      <h2 className='text-3xl font-semibold mb-2'>All ukulele Tabs</h2>
 
       <input
         type='text'
@@ -72,34 +73,34 @@ export default function AllTabs({ tabs }: AllTabsProps) {
 
                 <div className='mt-auto flex flex-wrap gap-2'>
                   {tab.tabFileUrl && (
-                    <a
+                    <Link
                       href={tab.tabFileUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
                     >
                       Tab
-                    </a>
+                    </Link>
                   )}
                   {tab.shopUrl && (
-                    <a
+                    <Link
                       href={tab.shopUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
                     >
                       Tab
-                    </a>
+                    </Link>
                   )}
                   {tab.videoUrl && (
-                    <a
+                    <Link
                       href={tab.videoUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='px-4 py-2 bg-gray-200 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors'
                     >
                       Video
-                    </a>
+                    </Link>
                   )}
 
                   {tab.audioFileUrl && (
