@@ -14,8 +14,11 @@ import {
   noteInIntervals,
 } from './helpers';
 import { Chord, Scale } from '@/types/pattern';
+import { useCallback, useEffect } from 'react';
 
 let audioContext: AudioContext | null = null;
+let activeSource: AudioBufferSourceNode | null = null;
+let preloadedBuffer: AudioBuffer | null = null;
 
 export const Ukulele = ({
   tuning,
@@ -32,36 +35,56 @@ export const Ukulele = ({
 }) => {
   const FRET_WIDTHS_CLASS = `0.5fr repeat(${FRETS - 1}, 1fr)`;
 
-  function getAudioContext() {
+  function getAudioContext(): AudioContext {
     if (!audioContext) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext!;
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
       audioContext = new AudioCtx();
     }
     return audioContext;
   }
 
-  function playNote(openNote: number, fret: number, octave: OctaveOffset) {
-    // Total semitone shift = note + octave + fret
-    const semitoneDiff = openNote + fret + octave * 12;
+  const preloadAudio = useCallback(async (url: string) => {
+    const context = getAudioContext();
+    const res = await fetch(url);
+    const arrayBuffer = await res.arrayBuffer();
+    preloadedBuffer = await context.decodeAudioData(arrayBuffer);
+  }, []); // no deps → stable reference
 
-    // Calculate playback rate
+  function playNote(openNote: number, fret: number, octave: OctaveOffset) {
+    const semitoneDiff = openNote + fret + octave * 12;
     const playbackRate = Math.pow(2, semitoneDiff / 12);
 
-    // Play after user gesture
     const context = getAudioContext();
     context.resume().then(() => {
-      fetch('/C.mp3')
-        .then((res) => res.arrayBuffer())
-        .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
-        .then((audioBuffer) => {
-          const source = context.createBufferSource();
-          source.buffer = audioBuffer;
-          source.playbackRate.value = playbackRate;
-          source.connect(context.destination);
-          source.start();
-        });
+      if (!preloadedBuffer) {
+        console.warn('Audio buffer not loaded yet!');
+        return;
+      }
+
+      if (activeSource) {
+        activeSource.stop();
+      }
+
+      const source = context.createBufferSource();
+      source.buffer = preloadedBuffer;
+      source.playbackRate.value = playbackRate;
+      source.connect(context.destination);
+      source.start();
+
+      // Track the active source
+      activeSource = source;
+
+      source.onended = () => {
+        if (activeSource === source) {
+          activeSource = null;
+        }
+      };
     });
   }
+
+  useEffect(() => {
+    preloadAudio('/C.mp3');
+  }, [preloadAudio]);
 
   return (
     <div
