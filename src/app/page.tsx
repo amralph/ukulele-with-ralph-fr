@@ -41,7 +41,7 @@ export default async function Home() {
   const { allTabs } = data;
 
   return (
-    <div className='container mx-auto py-6 px-12 space-y-4'>
+    <>
       <header className='mb-8 text-center'>
         <h1 className='text-4xl font-extrabold mb-2'>Ukulele with Ralph</h1>
         <p className='text-lg text-gray-800'>
@@ -56,6 +56,6 @@ export default async function Home() {
       <footer className='mt-12 text-center text-gray-500 text-sm'>
         <Socials youtubeUrl={youtubeUrl} tiktokUrl={tiktokUrl}></Socials>
       </footer>
-    </div>
+    </>
   );
 }

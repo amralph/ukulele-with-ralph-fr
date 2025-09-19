@@ -30,7 +30,9 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className='bg-blue-200'>{children}</body>
+      <body className='bg-blue-200'>
+        <div className='py-6 px-12 space-y-4'>{children}</div>
+      </body>
     </html>
   );
 }
