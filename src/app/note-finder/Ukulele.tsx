@@ -95,7 +95,7 @@ const UkuleleComponent = ({
 
               return (
                 <button
-                  onClick={() => {
+                  onPointerDown={() => {
                     setCurrentPlayedNote({
                       openNote: tuning[stringIndex].note,
                       fret: fretIndex,
