@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Ukulele } from './Ukulele';
 import { TuningForm } from './TuningForm';
 import { NoteSearchForm } from './NoteSearchForm';
 import { OctaveOffset } from '@/types/stringTuning';
 import { Chord, Scale } from '@/types/pattern';
 import { NoteDisplay } from './NoteDisplay';
+import { CurrentPlayedNote } from '@/types/note';
 
 export default function NoteFinder() {
   const [tuning, setTuning] = useState([
@@ -16,24 +17,65 @@ export default function NoteFinder() {
     { note: 7, octave: 0 as OctaveOffset },
   ]); // first index is first string
 
-  const updateTuning = (
-    stringIndex: number,
-    note: number,
-    octave: OctaveOffset
-  ) => {
-    setTuning((prevTuning) =>
-      prevTuning.map((stringTuning, i) => {
-        if (i !== stringIndex) return stringTuning;
-        return { note, octave };
-      })
-    );
-  };
+  const updateTuning = useCallback(
+    (stringIndex: number, note: number, octave: OctaveOffset) => {
+      setTuning((prevTuning) =>
+        prevTuning.map((stringTuning, i) =>
+          i === stringIndex ? { note, octave } : stringTuning
+        )
+      );
+    },
+    [] // depends on nothing
+  );
 
   const [searchNote, setSearchNote] = useState(0);
   const [searchChord, setSearchChord] = useState<Chord | ''>('');
   const [searchScale, setSearchScale] = useState<Scale | ''>('');
 
-  const [displayedNote, setDisplayedNote] = useState<string | null>('');
+  const [currentPlayedNote, setCurrentPlayedNote] = useState<{
+    openNote: number;
+    fret: number;
+    octave: OctaveOffset;
+    name: string;
+  } | null>(null);
+
+  const bufferRef = useRef<AudioBuffer>(null);
+  const audioContextRef = useRef<AudioContext>(null);
+
+  function playNote(playedNote: CurrentPlayedNote) {
+    if (!playedNote) return;
+    const semitoneDiff =
+      playedNote.openNote + playedNote.fret + playedNote.octave * 12;
+    const playbackRate = Math.pow(2, semitoneDiff / 12);
+
+    if (audioContextRef.current) {
+      const source = audioContextRef.current.createBufferSource();
+      source.buffer = bufferRef.current;
+      source.playbackRate.value = playbackRate;
+      source.connect(audioContextRef.current.destination);
+      source.start();
+    }
+  }
+
+  useEffect(() => {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+    audioContextRef.current = audioCtx;
+
+    async function loadAudio() {
+      const response = await fetch('/C.mp3');
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer =
+        await audioContextRef.current!.decodeAudioData(arrayBuffer);
+      bufferRef.current = audioBuffer;
+    }
+
+    loadAudio();
+  }, []);
+
+  useEffect(() => {
+    playNote(currentPlayedNote);
+  }, [currentPlayedNote]);
 
   return (
     <div className='space-y-4'>
@@ -52,7 +94,7 @@ export default function NoteFinder() {
           setSearchChord={setSearchChord}
           setSearchScale={setSearchScale}
         />
-        <NoteDisplay displayedNote={displayedNote} />
+        <NoteDisplay currentPlayedNote={currentPlayedNote} />
       </div>
       <div className='overflow-x-auto'>
         <Ukulele
@@ -60,7 +102,7 @@ export default function NoteFinder() {
           searchNote={searchNote}
           searchChord={searchChord}
           searchScale={searchScale}
-          setDisplayedNote={setDisplayedNote}
+          setCurrentPlayedNote={setCurrentPlayedNote}
         ></Ukulele>
       </div>
     </div>
