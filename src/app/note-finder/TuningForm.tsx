@@ -1,7 +1,8 @@
 import { STRINGS, NOTES } from './constants';
 import { OctaveOffset, StringTuning } from '@/types/stringTuning';
+import React from 'react';
 
-export const TuningForm = ({
+export const TuningFormComponent = ({
   tuning,
   updateTuning,
 }: {
@@ -52,3 +53,5 @@ export const TuningForm = ({
     </div>
   );
 };
+
+export const TuningForm = React.memo(TuningFormComponent);

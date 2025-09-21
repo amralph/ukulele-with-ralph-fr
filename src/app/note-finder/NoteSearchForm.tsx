@@ -1,7 +1,8 @@
 import { Chord, Scale } from '@/types/pattern';
 import { NOTES, CHORDS, SCALES } from './constants';
+import React from 'react';
 
-export const NoteSearchForm = ({
+export const NoteSearchFormComponent = ({
   setSearchNote,
   setSearchChord,
   setSearchScale,
@@ -59,3 +60,5 @@ export const NoteSearchForm = ({
     </div>
   );
 };
+
+export const NoteSearchForm = React.memo(NoteSearchFormComponent);
