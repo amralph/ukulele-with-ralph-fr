@@ -1,6 +1,11 @@
 import { client } from '@/sanity/client';
 import FeaturedTabs from '@/components/FeaturedTabs';
 import AllTabs from '@/components/AllTabs';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: `Ukulele tabs | Ukulele with Ralph`,
+};
 
 export default async function Home() {
   const FRONT_PAGE_QUERY = `{

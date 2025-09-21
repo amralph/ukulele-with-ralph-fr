@@ -21,20 +21,24 @@ const Navbar = ({
         </Link>
 
         {/* Tabs / Note Finder */}
-        <div className='flex space-x-4 flex-shrink-0'>
-          <Link
-            href='/'
-            className='bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded inline-block text-center flex-shrink-0'
-          >
-            Tabs
-          </Link>
-          <Link
-            href='/note-finder'
-            className='bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded inline-block text-center flex-shrink-0'
-          >
-            Note Finder
-          </Link>
-        </div>
+        <ol className='flex space-x-4 flex-shrink-0'>
+          <li>
+            <Link
+              href='/'
+              className='bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded inline-block text-center flex-shrink-0'
+            >
+              Ukulele Tabs
+            </Link>
+          </li>
+          <li>
+            <Link
+              href='/note-finder'
+              className='bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded inline-block text-center flex-shrink-0'
+            >
+              Note Finder
+            </Link>
+          </li>
+        </ol>
 
         {/* Right side: Socials */}
         <div className='ml-auto flex-shrink-0'>
