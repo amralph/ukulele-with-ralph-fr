@@ -6,8 +6,11 @@ import Navbar from '@/components/Navbar';
 import { client } from '@/sanity/client';
 
 export const metadata: Metadata = {
-  title: 'Ukulele with Ralph',
-  description: 'Ukulele with Ralph',
+  title: {
+    template: `%s | Ukulele with Ralph`, // %s is replaced by the page's title
+    default: `Ukulele with Ralph`, // Default title if no specific title is provided
+  },
+  description: 'A collection of ukulele tabs arranged by Ralph.',
 };
 
 export default async function RootLayout({
@@ -48,7 +51,7 @@ export default async function RootLayout({
       </head>
       <body className='bg-blue-200 flex flex-col min-h-screen'>
         <Navbar title={title} youtubeUrl={youtubeUrl} tiktokUrl={tiktokUrl} />
-        <div className='px-4 md:px-12 py-10 flex-grow'>{children}</div>
+        <div className='px-4 container mx-auto py-10 flex-grow'>{children}</div>
         <footer className='text-center text-gray-500 text-sm mt-10'>
           <Socials youtubeUrl={youtubeUrl} tiktokUrl={tiktokUrl}></Socials>
         </footer>
