@@ -77,7 +77,7 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                       href={tab.tabFileUrl}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
+                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors'
                     >
                       Tab
                     </Link>
@@ -87,7 +87,7 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                       href={tab.shopUrl}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition-colors'
+                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors'
                     >
                       Tab
                     </Link>
@@ -97,7 +97,7 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                       href={tab.videoUrl}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='px-4 py-2 bg-gray-200 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors'
+                      className='px-4 py-2 bg-gray-200 text-sm font-medium rounded-lg hover:bg-gray-300 active:bg-gray-400 transition-colors'
                     >
                       Video
                     </Link>

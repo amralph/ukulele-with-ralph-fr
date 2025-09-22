@@ -46,10 +46,9 @@ export default async function Home() {
     <div className='space-y-4'>
       <header className='text-center'>
         <h1 className='text-4xl font-extrabold mb-2'>Ukulele tabs</h1>
-        <p>Find ukulele tabs made by me here.</p>
+        <p>Find ukulele tabs and ukulele resources made by me here.</p>
       </header>
       <FeaturedTabs featuredTabs={featuredTabs} />
-
       <AllTabs tabs={allTabs} />
     </div>
   );
