@@ -4,10 +4,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Ukulele } from './Ukulele';
 import { TuningForm } from './TuningForm';
 import { NoteSearchForm } from './NoteSearchForm';
-import { OctaveOffset } from '@/types/stringTuning';
-import { Chord, Scale } from '@/types/pattern';
+import type { OctaveOffset } from '@/types/stringTuning';
+import type { Chord, Scale } from '@/types/pattern';
 import { NoteDisplay } from './NoteDisplay';
-import { CurrentPlayedNote } from '@/types/note';
+import type { CurrentPlayedNote } from '@/types/note';
 
 export const NoteFinder = () => {
   const [tuning, setTuning] = useState([

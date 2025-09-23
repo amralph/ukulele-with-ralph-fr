@@ -1,4 +1,4 @@
-import { Chord, Scale } from '@/types/pattern';
+import type { Chord, Scale } from '@/types/pattern';
 import { NOTES, CHORDS, SCALES } from './constants';
 import React from 'react';
 

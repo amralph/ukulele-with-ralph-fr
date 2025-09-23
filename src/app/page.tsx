@@ -4,7 +4,7 @@ import TabsList from '@/components/TabsList';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: `Ukulele tabs | Ukulele with Ralph`,
+  title: `Home | Ukulele with Ralph`,
 };
 
 export default async function Home() {

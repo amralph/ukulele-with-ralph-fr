@@ -1,4 +1,4 @@
-import { ScaleIntervals, ChordIntervals } from '@/types/pattern';
+import type { ScaleIntervals, ChordIntervals } from '@/types/pattern';
 
 export const FRETS = 13; // includes open string
 export const STRINGS = 4;

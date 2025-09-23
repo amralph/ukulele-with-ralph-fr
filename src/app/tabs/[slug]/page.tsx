@@ -2,8 +2,23 @@ import React from 'react';
 import { getTabBySlugQuery } from '../queries';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
-import { DetailedTab } from '@/types/tab';
+import type { DetailedTab } from '@/types/tab';
 import YouTubeOrVideo from '@/components/YoutubeOrVideo';
+import type { Metadata } from 'next';
+
+type Props = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slug = (await params).slug;
+
+  const tab = (await client.fetch(getTabBySlugQuery(slug))) as DetailedTab;
+  return {
+    title: `${tab.title} ukulele tab`,
+  };
+}
 
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;

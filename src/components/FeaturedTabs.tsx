@@ -1,5 +1,5 @@
 import React from 'react';
-import { DetailedTab } from '@/types/tab';
+import type { DetailedTab } from '@/types/tab';
 import Link from 'next/link';
 import YouTubeOrVideo from './YoutubeOrVideo';
 

@@ -1,5 +1,5 @@
-import { Chord, Scale } from '@/types/pattern';
-import { StringTuning } from '@/types/stringTuning';
+import type { Chord, Scale } from '@/types/pattern';
+import type { StringTuning } from '@/types/stringTuning';
 import { CHORDS, SCALES } from './constants';
 
 export const calculateNoteName = (

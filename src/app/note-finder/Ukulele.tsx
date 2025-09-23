@@ -6,16 +6,16 @@ declare global {
   }
 }
 
-import { StringTuning } from '@/types/stringTuning';
+import type { StringTuning } from '@/types/stringTuning';
 import { FRETS, STRINGS, NOTES } from './constants';
 import {
   calculateNoteName,
   calculateNoteNumber,
   noteInIntervals,
 } from './helpers';
-import { Chord, Scale } from '@/types/pattern';
+import type { Chord, Scale } from '@/types/pattern';
 import React from 'react';
-import { CurrentPlayedNote } from '@/types/note';
+import type { CurrentPlayedNote } from '@/types/note';
 
 const UkuleleComponent = ({
   tuning,
