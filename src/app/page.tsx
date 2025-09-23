@@ -1,6 +1,6 @@
 import { client } from '@/sanity/client';
 import FeaturedTabs from '@/components/FeaturedTabs';
-import AllTabs from '@/components/AllTabs';
+import TabsList from '@/components/TabsList';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export default async function Home() {
     "featuredTabs": featuredTabs[]->{
       _id,
       title,
-      slug,
+      "slug": slug.current,
       composer,
       videoUrl,
       shopUrl,
@@ -24,14 +24,8 @@ export default async function Home() {
   "allTabs": *[_type == "tab"] | order(title asc){
     _id,
     title,
-    slug,
+    "slug": slug.current,
     composer,
-    videoUrl,
-    shopUrl,
-    origin,
-    "previewTabFileUrl": previewTabFile.asset->url,
-    "audioFileUrl": audioFile.asset->url,
-    "tabFileUrl": tabFile.asset->url
   }
 }`;
 
@@ -45,12 +39,11 @@ export default async function Home() {
   return (
     <div className='space-y-4'>
       <header className='text-center'>
-        <h1 className='text-4xl font-extrabold mb-2'>Ukulele tabs</h1>
-        <p>Find ukulele tabs made by me here.</p>
+        <h1 className='text-4xl font-extrabold mb-2'>Ukulele with Ralph</h1>
+        <p>Find ukulele tabs and ukulele resources made by me here.</p>
       </header>
       <FeaturedTabs featuredTabs={featuredTabs} />
-
-      <AllTabs tabs={allTabs} />
+      <TabsList tabs={allTabs} />
     </div>
   );
 }
