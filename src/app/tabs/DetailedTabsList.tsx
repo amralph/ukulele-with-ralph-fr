@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DEBOUNCE_DELAY, PAGE_SIZE } from './constants';
 import Spinner from '@/components/Spinner';
-import { useIsMount } from '@/hooks/useIsAmount';
+import { useIsMount } from '@/hooks/useIsMount';
 
 interface DetailedTabsListProps {
   tabs: DetailedTab[];
@@ -65,7 +65,7 @@ export default function DetailedTabsList({ tabs }: DetailedTabsListProps) {
       clearTimeout(debounceTimer);
       controller.abort();
     };
-  }, [searchTerm, isMount]);
+  }, [searchTerm]);
 
   return (
     <div className='space-y-4'>
