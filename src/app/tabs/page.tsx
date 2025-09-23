@@ -2,6 +2,11 @@ import DetailedTabsList from '@/app/tabs/DetailedTabsList';
 import React from 'react';
 import { client } from '@/sanity/client';
 import { PAGE_SIZE } from './constants';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: `Ukulele tabs`,
+};
 
 const page = async () => {
   const TABS_PAGE_QUERY = `

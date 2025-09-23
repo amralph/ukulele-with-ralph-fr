@@ -35,3 +35,9 @@ export const getTabBySlugQuery = (slug: string) => `
   "tabFileUrl": tabFile.asset->url
 }
 `;
+
+export const getTabTitleBySlugQuery = (slug: string) => `
+*[_type == "tab" && slug.current == "${slug}"][0]{
+  title,
+}
+`;

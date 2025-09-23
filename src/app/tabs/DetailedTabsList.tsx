@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { DetailedTab } from '@/types/tab';
+import type { DetailedTab } from '@/types/tab';
 import Image from 'next/image';
 import Link from 'next/link';
 import { DEBOUNCE_DELAY, PAGE_SIZE } from './constants';
