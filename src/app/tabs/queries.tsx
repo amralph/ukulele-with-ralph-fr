@@ -10,7 +10,22 @@ export const getTabsPageQuery = (
 )] | order(title asc)[${(page - 1) * pageSize}...${page * pageSize}]{
   _id,
   title,
-  slug,
+  "slug": slug.current,
+  composer,
+  videoUrl,
+  shopUrl,
+  origin,
+  "previewTabFileUrl": previewTabFile.asset->url,
+  "audioFileUrl": audioFile.asset->url,
+  "tabFileUrl": tabFile.asset->url
+}
+`;
+
+export const getTabBySlugQuery = (slug: string) => `
+*[_type == "tab" && slug.current == "${slug}"][0]{
+  _id,
+  title,
+  "slug": slug.current,
   composer,
   videoUrl,
   shopUrl,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { DetailedTab } from '@/types/tab';
 import Link from 'next/link';
+import YouTubeOrVideo from './YoutubeOrVideo';
 
 interface FeaturedTabsProps {
   featuredTabs: DetailedTab[];
@@ -8,48 +9,32 @@ interface FeaturedTabsProps {
 
 export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
   return (
-    <section>
-      <h2 className='text-3xl font-semibold mb-6'>Featured ukulele tabs</h2>
+    <div className='space-y-4'>
+      <h2 className='text-3xl font-semibold'>Featured ukulele tabs</h2>
 
       {featuredTabs.length === 0 ? (
         <p className='text-center text-gray-500'>No tabs found.</p>
       ) : (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 '>
           {featuredTabs.map((tab) => (
             <article
               key={tab._id}
-              className='bg-blue-300 rounded-lg p-5 shadow-md flex flex-col'
+              className='bg-blue-300 rounded-lg p-5 shadow-md flex flex-col space-y-3'
             >
-              <h3 className='text-xl font-semibold mb-1'>{tab.title}</h3>
-              {tab.origin && (
-                <div className='text-sm text-gray-800 mb-3 space-y-1'>
-                  {tab.origin && <p>From {tab.origin}</p>}
-                </div>
-              )}
+              <div className='space-y-1'>
+                <h3 className='text-xl font-semibold '>{tab.title}</h3>
+                {tab.origin && (
+                  <div className='text-sm text-gray-800'>
+                    {tab.origin && <p>From {tab.origin}</p>}
+                  </div>
+                )}
+              </div>
 
               {tab.videoUrl && (
-                <div className='mb-5 rounded overflow-hidden aspect-video'>
-                  {tab.videoUrl.includes('youtube') ||
-                  tab.videoUrl.includes('youtu.be') ? (
-                    <iframe
-                      src={tab.videoUrl.replace('watch?v=', 'embed/')}
-                      title={tab.title}
-                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                      allowFullScreen
-                      className='w-full h-full'
-                    />
-                  ) : (
-                    <video
-                      controls
-                      src={tab.videoUrl}
-                      className='w-full h-auto rounded'
-                      preload='metadata'
-                    />
-                  )}
-                </div>
+                <YouTubeOrVideo videoUrl={tab.videoUrl} title={tab.title} />
               )}
 
-              <div className='mt-auto flex flex-col space-y-3'>
+              <div className='flex flex-col space-y-3'>
                 {/* Link for non-YouTube videos */}
                 {tab.videoUrl &&
                   !(
@@ -67,11 +52,10 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
                   )}
 
                 {/* Shop URL */}
-                <div className='mt-auto flex gap-3'>
+                <div className='flex gap-3'>
                   {tab.shopUrl && (
                     <Link
-                      href={tab.shopUrl}
-                      target='_blank'
+                      href={`/tabs/${tab.slug}`}
                       rel='noopener noreferrer'
                       className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors'
                     >
@@ -84,6 +68,6 @@ export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {
           ))}
         </div>
       )}
-    </section>
+    </div>
   );
 }

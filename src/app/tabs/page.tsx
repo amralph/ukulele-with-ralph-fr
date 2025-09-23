@@ -8,7 +8,7 @@ const page = async () => {
 *[_type == "tab"] | order(title asc)[0...${PAGE_SIZE}]{
   _id,
   title,
-  slug,
+  "slug": slug.current,
   composer,
   videoUrl,
   shopUrl,

@@ -21,7 +21,7 @@ export default function DetailedTabsList({ tabs }: ListProps) {
               key={tab._id}
               className='bg-blue-300 hover:bg-blue-400 active:bg-blue-500 rounded-lg p-4 shadow-sm flex gap-5 transition-colors'
             >
-              <Link href={`/tab/${tab.slug}`}>
+              <Link href={`/tabs/${tab.slug}`}>
                 <h3 className='text-lg font-semibold text-gray-900'>
                   {tab.title}
                 </h3>

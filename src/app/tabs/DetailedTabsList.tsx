@@ -41,7 +41,8 @@ export default function DetailedTabsList({ tabs }: DetailedTabsListProps) {
       setTabList((prevTabs) => [...prevTabs, ...newTabs.tabs]);
       setHasMore(newTabs.tabs.length > 0);
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      // do nothing
     } finally {
       setLoading(false);
     }
@@ -110,20 +111,9 @@ export default function DetailedTabsList({ tabs }: DetailedTabsListProps) {
                 )}
 
                 <div className='mt-auto flex flex-wrap gap-2'>
-                  {tab.tabFileUrl && (
+                  {tab.slug && (
                     <Link
-                      href={tab.tabFileUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors'
-                    >
-                      Tab
-                    </Link>
-                  )}
-                  {tab.shopUrl && (
-                    <Link
-                      href={tab.shopUrl}
-                      target='_blank'
+                      href={`/tabs/${tab.slug}`}
                       rel='noopener noreferrer'
                       className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors'
                     >
