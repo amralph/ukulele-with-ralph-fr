@@ -1,9 +1,9 @@
 import React from 'react';
-import { Tab } from '@/types/tab';
+import { DetailedTab } from '@/types/tab';
 import Link from 'next/link';
 
 interface FeaturedTabsProps {
-  featuredTabs: Tab[];
+  featuredTabs: DetailedTab[];
 }
 
 export default function FeaturedTabs({ featuredTabs }: FeaturedTabsProps) {

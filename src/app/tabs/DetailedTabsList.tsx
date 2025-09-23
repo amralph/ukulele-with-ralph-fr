@@ -1,35 +1,74 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { Tab } from '@/types/tab';
+import React, { useState, useEffect } from 'react';
+import { DetailedTab } from '@/types/tab';
 import Image from 'next/image';
 import Link from 'next/link';
+import { DEBOUNCE_DELAY, PAGE_SIZE } from './constants';
+import Spinner from '@/components/Spinner';
+import { useIsMount } from '@/hooks/useIsAmount';
 
-interface AllTabsProps {
-  tabs: Tab[];
+interface DetailedTabsListProps {
+  tabs: DetailedTab[];
 }
 
-export default function AllTabs({ tabs }: AllTabsProps) {
+export default function DetailedTabsList({ tabs }: DetailedTabsListProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [tabList, setTabList] = useState<DetailedTab[]>(tabs);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Filter tabs matching from the start of title or composer
-  const filteredTabs = useMemo(() => {
-    if (!searchTerm) return tabs;
+  const isMount = useIsMount();
 
-    const lowerSearch = searchTerm.toLowerCase();
+  const loadMore = async (
+    page: number,
+    pageSize: number,
+    term: string,
+    signal?: AbortSignal
+  ) => {
+    setLoading(true);
 
-    return tabs.filter((tab) => {
-      return (
-        tab.title.toLowerCase().includes(lowerSearch) ||
-        (tab.composer?.toLowerCase().includes(lowerSearch) ?? false) ||
-        (tab.origin?.toLowerCase().includes(lowerSearch) ?? false)
+    try {
+      const res = await fetch(
+        `/api/tabs?page=${page + 1}&pageSize=${pageSize}&searchTerm=${term}`,
+        { signal }
       );
-    });
-  }, [searchTerm, tabs]);
+
+      const newTabs = await res.json();
+
+      setCurrentPage((prevPage) => prevPage + 1);
+      setTabList((prevTabs) => [...prevTabs, ...newTabs.tabs]);
+      setHasMore(newTabs.tabs.length > 0);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchData = async () => {
+      setCurrentPage(0);
+      setTabList([]);
+      await loadMore(0, PAGE_SIZE, searchTerm, controller.signal);
+    };
+
+    const debounceTimer = setTimeout(() => {
+      if (!isMount) fetchData();
+    }, DEBOUNCE_DELAY);
+
+    return () => {
+      clearTimeout(debounceTimer);
+      controller.abort();
+    };
+  }, [searchTerm, isMount]);
 
   return (
-    <section>
-      <h2 className='text-3xl font-semibold mb-2'>All ukulele Tabs</h2>
+    <div className='space-y-4'>
+      <h2 className='text-3xl font-semibold mb-2'>All ukulele tabs</h2>
 
       <input
         type='text'
@@ -39,11 +78,11 @@ export default function AllTabs({ tabs }: AllTabsProps) {
         className='bg-white mb-6 w-full rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
       />
 
-      {filteredTabs.length === 0 ? (
+      {tabList.length === 0 && !loading ? (
         <p className='text-center text-gray-500'>No tabs found.</p>
       ) : (
         <ul className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-          {filteredTabs.map((tab) => (
+          {tabList.map((tab) => (
             <li
               key={tab._id}
               className='bg-blue-300 rounded-lg p-5 shadow-sm flex gap-5'
@@ -55,7 +94,6 @@ export default function AllTabs({ tabs }: AllTabsProps) {
                   className='w-32 h-44 object-contain rounded-md border bg-white'
                   width={128}
                   height={176}
-                  unoptimized
                 />
               )}
 
@@ -119,6 +157,19 @@ export default function AllTabs({ tabs }: AllTabsProps) {
           ))}
         </ul>
       )}
-    </section>
+      <div className='flex items-center justify-center'>
+        {hasMore && !loading && (
+          <button
+            className='px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors hover:cursor-pointer'
+            onClick={() => {
+              loadMore(currentPage, PAGE_SIZE, searchTerm);
+            }}
+          >
+            More
+          </button>
+        )}
+        {loading && <Spinner />}
+      </div>
+    </div>
   );
 }
